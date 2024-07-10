@@ -24,7 +24,7 @@ level_color_map = {
 }
 message_color = Fore.MAGENTA
 
-def log_message(*messages, level='INFO'):
+def log_message(*messages, level='INFO', custom_level=None):
     """
     Logs a message to a CSV file and prints it in color to the terminal.
     
@@ -39,7 +39,10 @@ def log_message(*messages, level='INFO'):
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
     # Prepare the log entry
-    log_entry = f"{current_time},{level},{' | '.join(messages)}\n"
+    if custom_level is not None:
+        log_entry = f"{current_time},{custom_level},{','.join(messages)}\n"
+    else:
+        log_entry = f"{current_time},{level},{','.join(messages)}\n"
 
     # Write the log entry to the CSV file
     with open(log_file_path, 'a') as log_file:
@@ -52,7 +55,10 @@ def log_message(*messages, level='INFO'):
     level_color = level_color_map[level]
 
     # Print the log in color to the terminal
-    print(f"{time_color}{current_time}{Style.RESET_ALL} - {level_color}{level}{Style.RESET_ALL} - {message_color}{' | '.join(messages)}{Style.RESET_ALL}")
+    if custom_level is not None:
+        print(f"{time_color}{current_time}{Style.RESET_ALL} - {level_color}{custom_level}{Style.RESET_ALL} - {message_color}{' | '.join(messages)}{Style.RESET_ALL}")
+    else:
+        print(f"{time_color}{current_time}{Style.RESET_ALL} - {level_color}{level}{Style.RESET_ALL} - {message_color}{' | '.join(messages)}{Style.RESET_ALL}")
 
 
 def main():
