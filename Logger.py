@@ -45,7 +45,7 @@ def log_message(*messages, level='INFO', custom_level=None):
         log_entry = f"{current_time},{level},{','.join(messages)}\n"
 
     # Write the log entry to the CSV file
-    with open(log_file_path, 'a') as log_file:
+    with open(log_file_path, 'a', encoding="utf-8") as log_file:
         if os.stat(log_file_path).st_size == 0:
             # Write header if file is empty
             log_file.write("Time,Level,Messages\n")
